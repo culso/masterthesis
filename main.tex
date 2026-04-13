@@ -1,0 +1,131 @@
+\documentclass
+[
+	12pt,
+	english,
+	listof=totoc,
+	bibliography=totoc,
+	parskip,
+%	numbers=endperiod
+]{scrartcl}
+
+\usepackage{geometry}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{booktabs}					% Nicer tables
+\setlength{\abovetopsep}{1ex}
+
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage[utf8]{inputenc}		% Input encoding
+\usepackage{csquotes}					% Quotations
+\usepackage{varioref}					% References like "Figure 2 on the next page"
+\usepackage[colorlinks=true, allcolors=blue!50!black]{hyperref}
+\usepackage[T1]{fontenc}			% Output encoding
+\usepackage{libertinus}				% Load Libertinus fonts
+\usepackage{lmodern}
+\usepackage{booktabs}
+
+%\setmonofont{DejaVu Sans Mono}[Scale=MatchLowercase]
+\usepackage{listings}				  % Code listings
+\lstdefinestyle{PascalStyle}{
+  language=Pascal,
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  keepspaces=true,
+  breaklines=true,
+  frame=single,
+  numbers=left,
+  numbersep=5pt,
+  numberstyle=\tiny\color{gray},
+  stepnumber=1,
+  numbersep=5pt,
+  tabsize=2,
+  captionpos=b,
+  morecomment=[l]{//},
+  commentstyle=\color{gray}\itshape,
+  showstringspaces=false,
+  keywordstyle=[1]\color{green!50!black}\bfseries,
+  morekeywords=[2]{string, integer},
+  keywordstyle=[2]\color{blue!50!black}\bfseries,
+}
+
+%\setuptoc{toc}{totoc} % Add 'Contents' to the table of contents
+\setcounter{tocdepth}{2} % suppress subsubsections
+
+\usepackage[headsepline]{scrlayer-scrpage}	% Horizontal line under header
+\clearpairofpagestyles
+\automark{section}
+\ohead{\normalfont\headmark}
+\ofoot{\normalfont\thepage}
+
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+
+\usepackage[capitalise,noabbrev,nameinlink]{cleveref}	% Automatically add type names like "Figure"
+
+\usepackage[
+		backend=biber,
+		style=numeric,
+		sorting=nyt,
+		backref=true
+]{biblatex}
+\addbibresource{references.bib}
+
+\author{Michael Heep}
+
+\begin{document}
+
+\begin{titlepage}
+    \begin{minipage}[c]{0.45\textwidth}
+    \includegraphics[width=0.625\textwidth]{resources/UNIS-Dachmarke_cmyk.pdf}
+    \end{minipage}\hfill
+    \begin{minipage}[c]{0.45\textwidth}
+    \includegraphics[width=1\textwidth]{resources/UNIS-f4-nt_cmyk.pdf}
+    \end{minipage}	
+	\vspace*{1cm}
+    \begin{center}
+        \vspace*{2cm}
+        \huge
+	Master's Thesis \\
+        \vspace*{1cm}
+	Agentic AI for CrypTool-Online Developers
+        %\LARGE
+        %Workshop: Programming Languages\\
+    \end{center}
+    \vfill
+    \normalsize
+    \begin{tabular}{ll}
+	Examiner & Prof. Bernhard Esslinger \\
+	%Examiner & Prof. Dr. Roland Wismüller \\
+        Supervisor & Felix Breitweiser \\
+        \\
+        Author & Michael Heep \\
+        Submitted & tbd 
+    \end{tabular}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{Introduction}
+\section{Related work}
+\section{Agentic AI}
+\subsection{Artificial Intelligence}
+
+%\input{01introduction.tex}
+%\newpage
+%\input{02pascal.tex}
+%\input{03grep.tex}
+%\input{04conclusion.tex}
+
+%\newpage
+%\listoffigures
+%\listoftables
+%\lstlistoflistings
+%\newpage
+%\printbibliography
+
+\end{document}
