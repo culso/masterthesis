@@ -28,28 +28,6 @@
 \usepackage{booktabs}
 
 %\setmonofont{DejaVu Sans Mono}[Scale=MatchLowercase]
-\usepackage{listings}				  % Code listings
-\lstdefinestyle{PascalStyle}{
-  language=Pascal,
-  basicstyle=\ttfamily,
-  columns=fullflexible,
-  keepspaces=true,
-  breaklines=true,
-  frame=single,
-  numbers=left,
-  numbersep=5pt,
-  numberstyle=\tiny\color{gray},
-  stepnumber=1,
-  numbersep=5pt,
-  tabsize=2,
-  captionpos=b,
-  morecomment=[l]{//},
-  commentstyle=\color{gray}\itshape,
-  showstringspaces=false,
-  keywordstyle=[1]\color{green!50!black}\bfseries,
-  morekeywords=[2]{string, integer},
-  keywordstyle=[2]\color{blue!50!black}\bfseries,
-}
 
 %\setuptoc{toc}{totoc} % Add 'Contents' to the table of contents
 \setcounter{tocdepth}{2} % suppress subsubsections
@@ -98,8 +76,8 @@
     \vfill
     \normalsize
     \begin{tabular}{ll}
-	Examiner & Prof. Bernhard Esslinger \\
-	%Examiner & Prof. Dr. Roland Wismüller \\
+	Examiner & Prof. Dr. Bernhard Esslinger \\
+	& Prof. Dr. Roland Wismüller \\
         %Supervisor & % TODO \\
         \\
         Author & Michael Heep \\
@@ -115,7 +93,7 @@
 
 % TODO: Write summary in German
 
-\newpage
+%\newpage
 \selectlanguage{english}
 %%%
 %%% Abstract (kann auch auf dieselbe Seite wie die Zusammenfassung)
@@ -135,11 +113,11 @@
 %%% Introduction section
 %%% Motivation, problem statement, research questions, delimitations and structure of the thesis
 %%%
-\section{Introduction} % TODO: Put methodology somwhere into introduction#
+\section{Introduction} % TODO: Put methodology somewhere into introduction#
 
 \subsection{Motivation and Problem Statement} 
 % Companies try to use LLMs (AI Agents) to contribute more easily to large software projects, but there is a lack of concepts and best practices for how to do this effectively
-% Developers who are not familiar with a new software project, have to invest a lot of time and effort to learn the project structure, codebase, etc. before they can contribute effectively
+% Developers who are not familiar with a new software project, have to invest a lot of time and effort to learn the project structure, code base, etc. before they can contribute effectively
 % LLMs (AI Agents) could potentially help with this, but it is not clear how to use them effectively in this context, especially in large software projects like CrypTool-Online
 \subsection{Research Questions}
 % How can LLMs (AI Agents) be used to contribute more easily to a large software project, such as CrypTool-Online?
@@ -162,7 +140,7 @@
 %%% Fundamentals/Foundations section
 %%% LLMs, AI Agents, skills, tooling, how to make LLMs smart, etc.
 %%%
-\section{Fundamentals}
+\section{Fundamentals} % TODO: Refine subsection titles and make notes for content
 \subsection{Large Language Models (LLMs)}
 \subsection{Making LLMs Smart}
 \subsection{Agentic AI}
@@ -192,7 +170,7 @@
 \subsection{Case Study: OpenCode}
 % same as above (not too deep/detailed, e.g., only "dry run")
 
-% Note: detailed description of the case studies, except the logs/transcripts (appendix). Adress research questions with important moments in the case studies, e.g., when the agent got stuck, when it needed intervention, etc. 
+% Note: detailed description of the case studies, except the logs/transcripts (appendix). Address research questions with important moments in the case studies, e.g., when the agent got stuck, when it needed intervention, etc. 
 
 % Note: Do not investigate full matrix: N apps x M approaches x K agents, but sample from it, with a focus on the case study with Claude Code (qualitative multi-case-study). Rest could be future work. 
 
@@ -211,7 +189,7 @@
 
 %%% Criteria
 % Define what "contriute more easily to a large software project" means (automonmy, time taken, interventions needed, etc.)
-% Convention adherence/consistency (matches CTO codebase / app patterns, etc.)
+% Convention adherence/consistency (matches CTO code base / app patterns, etc.)
 % Correctness of the code (does it work? does it meet the specs? etc.)
 % (Maybe: Effort to learn the project structure, like /init)
 
