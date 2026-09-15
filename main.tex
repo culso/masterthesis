@@ -116,121 +116,19 @@
 \tableofcontents
 \newpage
 
-%%%
-%%% Introduction section
-%%% Motivation, problem statement, research questions, delimitations and structure of the thesis
-%%%
-\section{Introduction} % TODO: Put methodology somewhere into introduction
+\include{01introduction}
 
-\subsection{Motivation and Problem Statement} 
-% Companies try to use LLMs (AI Agents) to accelerate their software development process, but there is a lack of concepts and best practices for how to do this effectively
-% Developers who are not familiar with a new software project, have to invest a lot of time and effort to learn the project structure, code base, etc. before they can contribute effectively
-% LLMs could potentially help with this, but it is not clear how to use them effectively in this context, especially in large software projects like CrypTool-Online
-\subsection{Research Questions}
-% 1. How can LLMs (AI Agents) be used to make it easier for new developers to contribute to a large software project, such as CrypTool-Online? Or: Can LLM agents make it easier for a new contributor to work in a large project?
-% 2. What is possible with current online LLMs (AI Agents) and what are their limitations in this context?
-% 3. What is possible with current offline LLMs (AI Agents) and what are their limitations in this context?
-% 4. What is the effect for a reviewer after such a process is applied?
-\subsection{Limitations for this Master's Thesis}
-% Not all LLMs can be investigated, but a selection of them (e.g., Claude Code, Codex, OpenCode, Antigravity)
-% Not all approaches can be investigated, but a selection of them (e.g., with/without tools, with/without skills, etc.)
-% Not all apps can be implemented, but a selection of them (e.g., 2-3 apps)
-% 
-\subsection{Structure}
+\include{02background}
 
-%%%
-%%% Background and Related Work section
-%%%
-\section{Background and Related work}
-% Review of the literature on LLMs, AI Agents, skills, tooling, etc.
-% Review of existing approaches for using LLMs in software development, especially in large software projects
-% Are there open source projects using agents?
-%%%
-%%% Fundamentals/Foundations/Background section
-%%% LLMs, AI Agents, skills, tooling, how to make LLMs smart, etc.
-%%%
-\section{Foundations} % TODO: Refine subsection titles and make notes for content
-\subsection{Large Language Models (LLMs)}
-\subsection{Agentic AI}
-\subsection{Skills and Tooling}
-\subsection{Anforderungen im CTO-Entwicklungsprojekt}
+\include{03foundations}
 
-% TODO: Add section to describe development of tools/skills/.md-file
-\section{Development of ...} % Entwicklung eines angepassten LLMs/Agent/ vorkonfigurierten LLMs
+\include{04development}
 
-%%%
-%%% Implementation section, 
-%%% how to use available Agents to solve the problem, case studies, etc.
-%%%
-\section{Implementation and Case Studies} %main part/hauptteil
-% Verschiedene Ansätze vorbringen
-% App 1: BoxCipher / CryptoBox
-% App 2: Route Cipher
-% App 3: Bitcoin attacks
-\subsection{Experimental Setup} % (Kürzen wegen section "Development of ...")
-% Describe CTO project context (repo structure, how new apps are added, etc.)
-% What CTO apps are to be implemented (and why)? (How many apps should we do? 2?) State differences between apps
-% How are the apps described to the AI?
-% Describe the specs given to the agents in each run (one shot, only /init, tools, skills, etc. (not all combinations, but maybe 2-3 different approaches))
-% Introduce selection of agents (and why)? (criteria: cost, performance, ease of use, etc.)
-% Describe environment setup (i.e., terminal based, desktop app or plugin in VSC) (e.g., how to connect agents to the CTO codebase, how to evaluate their performance, etc.)
-% Describe observations that will be made (e.g., (no. of) prompts, no. of iterations, time taken (elapsed time), autonomy, failures, interventions needed, etc.)
-\subsection{Case Study: Claude Code} %Or: Case Study: App 1; Case Study: App 2; Case Study: App 3
-% In-depth description of different approaches (e.g., with/without tools, with/without skills, etc.) 
-% 1. prompt/spec given to the agent
-% 2. step by step description of what the agent did
-% 3. observations (where it got stuck, where intervention was needed)
-% 4. results (code snippets, screenshots, etc.)
-\subsection{Case Study: Codex}
-% same as above (not too deep/detailed, e.g., only "dry run")
-\subsection{Case Study: OpenCode}
-% same as above (not too deep/detailed, e.g., only "dry run")
+\include{05implementation}
 
-% Note: detailed description of the case studies, except the logs/transcripts (usb-stick, cd, appendix). Address research questions with important moments in the case studies, e.g., when the agent got stuck, when it needed intervention, etc. 
+\include{06evaluation}
 
-% Note: Do not investigate full matrix: N apps x M approaches x K agents, but sample from it, with a focus on the case study with Claude Code (qualitative multi-case-study). Rest could be future work. 
-
-% Note: Use consistent structure for the case studies
-
-%%%
-%%% Evaluation section
-%%% Evaluate the different approaches, compare them, discuss their strengths and weaknesses, etc.
-%%%
-\section{Evaluation}
-
-%%%
-%%% Discussion section
-%%% Discuss the results, implications, limitations, etc.
-%%%
-
-%%% Criteria
-% Define what "contribute more easily to a large software project" means (automonmy, time taken, interventions needed, etc.)
-% Convention adherence/consistency (matches CTO code base / app patterns, etc.)
-% Use of present code base (e.g., reuse of existing code, etc.)
-% Correctness/ Maintainability / Erweiterbarkeit() of the code (does it work? does it meet the specs? etc.)
-% (Maybe: Effort to learn the project structure, like /init)
-
-% Vielleicht besser: Aspekte herausnehmen und beurteilen, welche KI besser/schlechter (oder ähnlich gut) war
-
-%%% (Cross-Agent Comparison
-% compare agents that got the same task and approach
-
-%%% Cross-approach Comparison 
-% compare different approaches (e.g., with/without tools, with/without skills, etc.) for the same agent
-
-%%% Cross-approach Comparison (only for Claude Code)
-% Within an agent, compare different approaches 
-% e.g., does the setup make a difference in terms of interventions?)
-
-%%% themes spanning across all the comparisons, general answer to the research questions
-
-% psychological question: How does the motivation of a new developer change?
-
-% Was ist der Unterschied mit und ohne LLM zu entwickeln?
-
-\section{Conclusion and Future Work}
-% Idea: Future work: How to prepare fixed environments for Agents (e.g., markdown files, tooling, skills) that can be used by new developers?
-% Stress, that we are aware of the limits of the current LLMs
+\include{07conclusion}
 
 % TODO: Appendix: e.g., prompts, code snippets, etc.
 
