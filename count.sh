@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sections=(01introduction 02pascal 03grep 04conclusion)
+sections=(01introduction 02background 03foundations 04development 05implementation 06evaluation 07conclusion)
 section_words=()
 total=0
 
