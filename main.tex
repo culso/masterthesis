@@ -24,7 +24,7 @@
 \usepackage[colorlinks=true, allcolors=blue!50!black]{hyperref}
 \usepackage[T1]{fontenc}			% Output encoding
 \usepackage{libertinus}				% Load Libertinus fonts
-\usepackage{lmodern}
+%\usepackage{lmodern}
 \usepackage{booktabs}
 
 %\setmonofont{DejaVu Sans Mono}[Scale=MatchLowercase]
@@ -55,7 +55,9 @@
 \author{Michael Heep}
 
 \begin{document}
-
+%%%
+%%% Titelseite
+%%%
 \begin{titlepage}
     \begin{minipage}[c]{0.45\textwidth}
     \includegraphics[width=0.625\textwidth]{resources/UNIS-Dachmarke_cmyk.pdf}
@@ -63,12 +65,15 @@
     \begin{minipage}[c]{0.45\textwidth}
     \includegraphics[width=1\textwidth]{resources/UNIS-f4-nt_cmyk.pdf}
     \end{minipage}	
-	\vspace*{1cm}
+	\vspace*{2cm}
     \begin{center}
         \vspace*{2cm}
-        \huge
-	Master's Thesis \\
-        \vspace*{1cm}
+        \LARGE
+        Master's Thesis \\
+        \normalsize
+        for acquiring the academic degree of Master of Science Computer Science \\
+        \vspace*{2cm}
+        \Huge
 	% Version 1:Agentic AI for CrypTool-Online Developers\\
   % Version 2 DE (Wismüller): Konzepte zur produktiven Nutzung von LLMs (AI Agents) in der Entwicklung von großen Softwareprojekten am Beispiel von CrypTool\\
   % Version 2 EN (Wismüller): Concepts for the Productive Use of LLMs (AI Agents) in the Development of Large Software Projects with CrypTool as an Example
@@ -76,19 +81,19 @@
   % Version 3 EN (BE+MH): Evaluation and Improvement of the Productive Development Process of Large Software Projects with the Help of LLMs (AI Agents) with CrypTool as an Example\\
   % Version 4 EN:Evaluation and Improvement of LLMs (AI Agents) Contribution to Large Software Projects with CrypTool as an Example\\
 % Final Version:
-  Evaluating and Improving Software Development Processes in Large-Scale Projects Using LLM-Based AI Agents: A Case Study of CrypTool
-        
-  
+    Evaluating and Improving Software Development Processes in Large-Scale Projects Using LLM-Based AI Agents: A Case Study of CrypTool
     \end{center}
     \vfill
     \normalsize
-    \begin{tabular}{ll}
-	Examiner & Prof. Dr. Bernhard Esslinger \\
-	& Prof. Dr. Roland Wismüller \\
-        %Supervisor & % TODO \\
+    \begin{tabular}{p{3.5cm} p{6.5cm}}
+        Betreuer & Prof. Dr. Bernhard Esslinger \\
         \\
-        Author & Michael Heep \\
-        Submitted & % TODO
+        Erstprüfer & Prof. Dr. Bernhard Esslinger \\
+        Zweitprüfer	& Prof. Dr. Roland Wismüller \\
+        \\
+        vorgelegt von & Michael Heep \\
+        Matrikelnummer & 1272000 \\
+        Abgabedatum & tbd % TODO
     \end{tabular}
 \end{titlepage}
 
