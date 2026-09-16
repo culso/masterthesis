@@ -2,20 +2,49 @@
 %%% Introduction section
 %%% Motivation, problem statement, research questions, delimitations and structure of the thesis
 %%%
-\section{Introduction} % TODO: Put methodology somewhere into introduction
+\section{Introduction}
+\label{sec:introduction}
 
-\subsection{Motivation and Problem Statement} 
+\subsection{Motivation and Problem Statement}
 % Companies try to use LLMs (AI Agents) to accelerate their software development process, but there is a lack of concepts and best practices for how to do this effectively
 % Developers who are not familiar with a new software project, have to invest a lot of time and effort to learn the project structure, code base, etc. before they can contribute effectively
 % LLMs could potentially help with this, but it is not clear how to use them effectively in this context, especially in large software projects like CrypTool-Online
+
+Within a few years, coding assistants based on \acfp{LLM} have evolved from line-by-line autocompletion into autonomous agents. Tools such as Claude Code, Codex, or OpenCode can read an existing repository, plan a change, edit multiple files, run the build and the test suite, and react to the results, all within a single task given in natural language. Companies and open source projects alike are adopting these agents in the hope of accelerating their development process. However, the scientific evidence on how well this works is still thin. Most research so far is benchmark-driven: benchmarks such as SWE-bench~\cite{Jimenez2023SWEbenchCL} measure whether an agent can resolve isolated GitHub issues, but they say little about sustained contribution to a real project with its own conventions, tooling, and history. At the same time, there is little guidance on how such agents should be configured and integrated into an existing project. First exploratory studies on the configuration of agentic coding tools~\cite{Galster2026ConfiguringAA, Lulla2026OnTI, Lulla2026TheIO} show that practitioners are developing best practices ad hoc, without an established body of knowledge to draw on.
+
+A second, older problem exists independently of so called \ac{AI} tooling. \todo{Introduce AI tooling before using the term.} A developer who joins a large software project spends a considerable part of their initial effort not on writing code but on learning: the structure of the repository, the conventions of the code base, the build and test tooling, and the existing abstractions that a new feature is expected to reuse. This ramp-up cost grows with the age and size of the project, because mature projects accumulate conventions that are rarely written down completely. \ac{CTO} is such a project. It is a large, long-lived web application that offers a collection of cryptographic apps for educational purposes, and it has an established but only partially documented pattern for how new apps are structured and added. Open source projects like \ac{CTO} depend particularly on lowering this barrier, since their contributors are often volunteers and students who can only invest limited time before their first contribution has to succeed.
+
+\ac{LLM}-based agents appear to be a natural fit for this onboarding problem. They can explore a repository within minutes, infer conventions from existing code, and produce a first implementation that follows those conventions. Yet it is unknown how well they actually perform this in a project of the size of \ac{CTO}, which kind of setup makes a difference (a plain prompt, project-specific instruction files, additional skills or tools), and where they still fail or require human intervention. This thesis investigates these questions by letting several agents implement new \ac{CTO} apps under different configurations and by comparing the resulting processes and outcomes in a qualitative multi-case study. The research questions guiding this investigation are stated in the following subsection.
+
 \subsection{Research Questions}
+\label{sec:research-questions}
 % 1. How can LLMs (AI Agents) be used to make it easier for new developers to contribute to a large software project, such as CrypTool-Online? Or: Can LLM agents make it easier for a new contributor to work in a large project?
 % 2. What is possible with current online LLMs (AI Agents) and what are their limitations in this context?
 % 3. What is possible with current offline LLMs (AI Agents) and what are their limitations in this context?
 % 4. What is the effect for a reviewer after such a process is applied?
+
+The overarching goal of this thesis is to understand whether, and under which conditions, \ac{LLM}-based agents make it easier for a new contributor to work productively in a large existing software project. This goal is broken down into the following research questions:
+
+\begin{enumerate}
+	\item[\textbf{RQ1}] Can \ac{LLM}-based agents make it easier for a new contributor to work in a large software project such as \acl{CTO}?
+	\item[\textbf{RQ2}] What is possible with current cloud-based \ac{LLM} agents in this context, and what are their limitations?
+	\item[\textbf{RQ3}] What is possible with current offline \ac{LLM} agents in this context, and what are their limitations?
+	\item[\textbf{RQ4}] What is the effect on a reviewer once such an agent-supported process is applied?
+\end{enumerate}
+
+RQ1 is the core question of this thesis and is answered through the case studies. RQ2 and RQ3 refine it with regard to the available technology: they motivate the selection of agents and define what has to be observed during the experiments, namely where an agent succeeds autonomously, where it gets stuck, and where it needs intervention. RQ4 addresses a consequence that is easily overlooked: when an agent writes the code, the human effort shifts from writing to reviewing. Whether this shift is a net benefit for the project can only be judged if the reviewer's perspective is evaluated as well.
+
+
 \subsection{Limitations for this Master's Thesis}
+\label{sec:limitations}
 % Not all LLMs can be investigated, but a selection of them (e.g., Claude Code, Codex, OpenCode, Antigravity)
 % Not all approaches can be investigated, but a selection of them (e.g., with/without tools, with/without skills, etc.)
 % Not all apps can be implemented, but a selection of them (e.g., 2-3 apps)
-% 
+%
+
+The scope of this thesis is deliberately limited in several respects. Not all available agents can be covered; instead, a selection is made with Claude Code as the primary, in-depth case study and Codex and OpenCode as shallower comparisons. Likewise, not all possible configurations can be tested. A small number of approaches is chosen, such as running an agent without any project-specific configuration, with project instruction files, and with additional skills or tools. Finally, not all conceivable \ac{CTO} apps can be implemented; two to three apps are selected to cover different levels of difficulty. The study therefore does not explore the full matrix of agents, approaches, and apps, but samples from it in the form of a qualitative multi-case study. Its results are illustrative rather than statistically generalisable. Moreover, both the agents and the underlying models evolve rapidly, so the observations reflect the versions available at the time of writing and may not hold for future releases.
+
 \subsection{Structure}
+\label{sec:structure}
+
+The remainder of this thesis is organised as follows. \Cref{sec:background} reviews related work on \ac{LLM}-based agents in software engineering and on the configuration of agentic coding tools. \Cref{sec:foundations} introduces the necessary foundations: \aclp{LLM}, agentic \ac{AI}, skills and tooling, and the requirements of the \ac{CTO} development project. \Cref{sec:development} describes the development of the customised agent setup that is used in the case studies. \Cref{sec:implementation} presents the experimental setup and the case studies for each agent. \Cref{sec:evaluation} evaluates and compares the results across agents and approaches. \Cref{sec:conclusion} concludes the thesis and outlines future work.
