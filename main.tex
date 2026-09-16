@@ -24,12 +24,15 @@
 \usepackage[colorlinks=true, allcolors=blue!50!black]{hyperref}
 \usepackage[T1]{fontenc}			% Output encoding
 \usepackage{libertinus}				% Load Libertinus fonts
-%\usepackage{lmodern}
+%\usepackage{lmodern}               % Alternative Font
 \usepackage{booktabs}
+\usepackage[printonlyused]{acronym}		% Abkürzungsverzeichnis
+
+
 
 %\setmonofont{DejaVu Sans Mono}[Scale=MatchLowercase]
 
-%\setuptoc{toc}{totoc} % Add 'Contents' to the table of contents
+\setuptoc{toc}{totoc} % Add 'Contents' to the table of contents
 \setcounter{tocdepth}{2} % suppress subsubsections
 
 \usepackage[headsepline]{scrlayer-scrpage}	% Horizontal line under header
@@ -42,15 +45,16 @@
 \widowpenalty=10000
 \displaywidowpenalty=10000
 
-\usepackage[capitalise,noabbrev,nameinlink]{cleveref}	% Automatically add type names like "Figure"
-
 \usepackage[
 		backend=biber,
 		style=numeric,
+        minnames=1,
+        maxnames=99,
 		sorting=nyt,
 		backref=true
 ]{biblatex}
 \addbibresource{references.bib}
+\usepackage[capitalise,noabbrev,nameinlink]{cleveref}	% Automatically add type names like "Figure"
 
 \author{Michael Heep}
 
@@ -113,11 +117,11 @@
 \addsec{Abstract}
 % TODO: Write summary in English
 
+\newpage
 
 %%% 
-%%% Table of Contents
+%%% Inhaltsverzeichnis
 %%%
-\newpage
 \tableofcontents
 \newpage
 
@@ -137,11 +141,71 @@
 
 % TODO: Appendix: e.g., prompts, code snippets, etc.
 
-%\newpage
-%\listoffigures
+%%%
+%%% Literaturverzeichnis
+%%%
+\newpage
+\printbibliography[title=Bibliography]
+\newpage
+
+%%%
+%%% Abkürzungsverzeichnis (es werden nur die Akkürzungen aus der ff. Tabelle aufgeführt, die man auch im Text verwendet)
+%%%
+\addsec{List of Abbreviations}
+\begin{acronym}[HTTPS] %In den eckigen Klammern längste Abkürzung angeben. Definiert Breite der Spalte mit Kürzeln
+\acro{AI}{artificial intelligence}
+\acro{CTO}{CrypTool-Online}
+\acro{LLM}{large language model}
+\end{acronym}
+\newpage
+
+%%%
+%%% Tabellenverzeichnis
+%%%
 %\listoftables
+%\newpage
+
+%%%
+%%% Codeverzeichnis / Listings
+%%%
 %\lstlistoflistings
 %\newpage
-%\printbibliography
+ 
+
+%%%
+%%% Abbildungsverzeichnis
+%%%
+%\listoffigures
+%\newpage
+
+%%%
+%%% Eidesstattliche Erklärung
+%%%
+\addsec{Eidesstattliche Erklärung}
+Hiermit versichere ich, dass ich die vorliegende Arbeit selbstständig verfasst und keine anderen als die angegebenen Quellen und Hilfsmittel benutzt habe, insbesondere keine anderen als die angegebenen Informationen aus dem Internet. Diejenigen Paragraphen der für mich geltenden Prüfungsordnungen, die etwaige Betrugsversuche betreffen, habe ich zur Kenntnis genommen.
+
+Der Speicherung meiner Masterarbeit zum Zweck der Plagiatsprüfung stimme ich zu. Ich
+versichere, dass die elektronische Version mit der gedruckten Version inhaltlich übereinstimmt.
+
+\vspace{5em}
+
+%--------------------------------- ---------------------------------------------------------
+\rule{.3\textwidth}{.5pt}\qquad\rule{.45\textwidth}{.5pt}
+
+\vspace{-1em}		
+\hspace{3.5em}(Datum)\hspace{10,5em}(Unterschrift)
+
+
+\addsec{Content of the CD}
+\label{sec:Inhalt-USB}
+\begin{itemize}
+    \item Master's thesis as PDF
+    \item Source code of the application
+    %\item Installationsprogramm der Applikation für Android und Windows
+\end{itemize}
+
+%[optional] Link zum Source-Code: 
+%- der App: \url{xxx}
+%- der BA: \url{xxx}
 
 \end{document}
