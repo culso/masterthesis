@@ -1,0 +1,1 @@
+{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"^\\QCite a methodological reference for (multi-)case study research, e.g. Yin or Runeson & Höst.\\E$"}
