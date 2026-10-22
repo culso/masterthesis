@@ -24,6 +24,7 @@
 \usepackage[colorlinks=true, allcolors=blue!50!black]{hyperref}
 \usepackage[T1]{fontenc}			% Output encoding
 \usepackage{libertinus}				% Load Libertinus fonts
+\usepackage[varqu,varl,scaled=0.95]{zi4}	% Inconsolata as monospace font (straight quotes, distinct l)
 %\usepackage{lmodern}               % Alternative Font
 \usepackage{microtype}              % Better typography
 \usepackage{booktabs}
@@ -37,6 +38,7 @@
 
 \setuptoc{toc}{totoc} % Add 'Contents' to the table of contents
 \setcounter{tocdepth}{2} % suppress subsubsections
+\deffootnote{0pt}{0pt}{\textsuperscript{\thefootnotemark}\,} % Footnotes flush left, no indent
 
 \usepackage[headsepline]{scrlayer-scrpage}	% Horizontal line under header
 \clearpairofpagestyles
