@@ -8,14 +8,49 @@
 % App 1: BoxCipher / CryptoBox
 % App 2: Route Cipher
 % App 3: Bitcoin attacks
+% TIP: Report the earlier runs (1 complete, several partial and undocumented) as a pilot study. They informed the AGENTS.md and the experimental protocol. Runeson & Höst (2009) explicitly allow pilot cases, so they need not be discarded.
 \subsection{Experimental Setup} % (Kürzen wegen section "Development of ...")
+% TIP: Write the experimental protocol (initial prompt, follow-up rules, done/abort criteria, starting state, data collection) down BEFORE the first run. It then becomes this subsection almost directly.
 % Describe CTO project context (repo structure, how new apps are added, etc.)
 % What CTO apps are to be implemented (and why)? (How many apps should we do? 2?) State differences between apps
+% TIP: Choose app 2 clearly different from app 1, ideally more complex. App 2 is the replication case: does the setup effect from app 1 also occur for a different task?
+% TIP: Make sure the task's app does not already exist in the repo and is not publicly available in a form the model may have seen in training. Otherwise mention it as a limitation.
 % How are the apps described to the AI?
+% TIP: Fixed initial prompt per app, identical for all agents and both configurations. Put both prompts verbatim into the appendix.
 % Describe the specs given to the agents in each run (one shot, only /init, tools, skills, etc. (not all combinations, but maybe 2-3 different approaches))
+% TIP: Final design (8 runs), 2 configurations = baseline (no AGENTS.md, no skills) vs. setup (AGENTS.md + Chakra UI skills):
+%   - App 1: 3 agents (Claude Code, Codex, OpenCode with local model) x 2 configurations = 6 runs
+%   - App 2: Claude Code only x 2 configurations = 2 runs (replication)
+%   Extension if time permits: Codex and OpenCode on app 2 as well (= 12 runs); otherwise future work.
+% TIP: Run order, so that an early stop still leaves a usable subset:
+%   1. App 1, Claude Code, setup     2. App 1, Claude Code, baseline
+%   3. App 1, Codex, setup           4. App 1, OpenCode, setup
+%   5. App 2, Claude Code, setup     6. App 2, Claude Code, baseline
+%   7. App 1, Codex, baseline        8. App 1, OpenCode, baseline
+% TIP: Check that every agent actually loads the setup: Claude Code may read CLAUDE.md instead of AGENTS.md (if so, add a CLAUDE.md containing only "@AGENTS.md"). Skill folders differ per agent (.claude/skills, .agents/skills, .opencode/skills). Verify in each transcript that the skills were used.
+% TIP: Local model for OpenCode: test tool calling in a short trial run before the real run. Document model, quantization, runtime (e.g., llama.cpp version), context size, and hardware (RTX 3060 12 GB, Ryzen 5 2600, 46 GB RAM).
 % Introduce selection of agents (and why)? (criteria: cost, performance, ease of use, etc.)
 % Describe environment setup (i.e., terminal based, desktop app or plugin in VSC) (e.g., how to connect agents to the CTO codebase, how to evaluate their performance, etc.)
+% TIP: Identical starting state for every run:
+%   - same commit, fresh branch or fresh clone
+%   - same AGENTS.md (record git hash)
+%   - disable user-level config and memory: ~/.claude/CLAUDE.md, Claude Code auto-memory, ~/.codex/AGENTS.md, global MCP servers
+%   - record model, agent version, and reasoning effort per run
 % Describe observations that will be made (e.g., (no. of) prompts, no. of iterations, time taken (elapsed time), autonomy, failures, interventions needed, etc.)
+% TIP: Rules for follow-up prompts. Classify every intervention:
+%   - Report: only describe what is wrong ("build fails with X", "button does nothing")
+%   - Hint: point to a place ("look at how app Y does it")
+%   - Instruction: say exactly what to do, or write code yourself
+%   Stay at "Report" as long as possible. Number of interventions per category and agent = central comparable result.
+% TIP: Define "done" and "abort" in advance:
+%   - done = checklist (builds, lint passes, required features work, follows app structure)
+%   - abort = fixed budget (e.g., 90 min or 25 prompts), after which the run counts as failed
+%   Otherwise agents get stopped at different points unintentionally.
+% TIP: Data collection, right after each run:
+%   - save transcripts: Claude Code ~/.claude/projects/ (JSONL), Codex ~/.codex/sessions/, OpenCode export
+%   - commit after every agent turn so the git history shows how the code evolved
+%   - token usage / cost can be extracted from the transcripts later
+% TIP: Keep a log table during the run: one row per prompt with time, intervention category, what went wrong, short note. Much faster to analyse than re-reading transcripts.
 \subsection{Case Study: Claude Code} %Or: Case Study: App 1; Case Study: App 2; Case Study: App 3
 % In-depth description of different approaches (e.g., with/without tools, with/without skills, etc.) 
 % 1. prompt/spec given to the agent

@@ -16,6 +16,8 @@
 % Use of present code base (e.g., reuse of existing code, etc.)
 % Correctness/ Maintainability / Erweiterbarkeit() of the code (does it work? does it meet the specs? etc.)
 % (Maybe: Effort to learn the project structure, like /init)
+% TIP: Number of interventions per category (Report / Hint / Instruction, see 05implementation.tex) and whether the run reached "done" within the budget are the most comparable criteria across agents.
+% TIP: Blind review: rename branches neutrally (A, B, C) so the reviewer does not know which agent produced the code. Use the same checklist for every review. If a CTO maintainer reviews (some of) the results, this also covers RQ4.
 
 % Vielleicht besser: Aspekte herausnehmen und beurteilen, welche KI besser/schlechter (oder ähnlich gut) war
 
@@ -28,6 +30,9 @@
 %%% Cross-approach Comparison (only for Claude Code)
 % Within an agent, compare different approaches 
 % e.g., does the setup make a difference in terms of interventions?)
+% TIP: With the fixed setup, this comparison is: baseline (no AGENTS.md, no skills) vs. AGENTS.md + Chakra UI skills, for each of the three agents. Interesting question: does the effect of the same AGENTS.md differ between agents?
+% TIP: OpenCode differs in agent AND model (local), so differences to the other agents cannot be attributed to one of them alone.
+% TIP: Cross-app comparison (Claude Code only): does the setup effect from app 1 also occur on app 2 (replication)? Does it depend on the complexity of the app?
 
 %%% themes spanning across all the comparisons, general answer to the research questions
 
