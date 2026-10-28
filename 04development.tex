@@ -1,5 +1,13 @@
 % TODO: Add section to describe development of tools/skills/.md-file
 \section{Developing an Agent Setup for CrypTool-Online} % Entwicklung eines angepassten LLMs/Agent/ vorkonfigurierten LLMs
 \label{sec:development}
-% TIP: Final setup = AGENTS.md (=context file) + the agent skills shipped by Chakra UI (https://chakra-ui.com/docs/get-started/ai/skills). Freeze it before the first case-study run and record the git hash of the AGENTS.md version used; do not change it between runs.
+% TIP: Final setup (branch ma-setup in culso/cryptool.org, based on main 6ed00c72) for Claude Code, Codex and OpenCode. Freeze it before the first case-study run and record the git hash; do not change it between runs.
+%   - lean AGENTS.md (224 lines): only what an agent can't find out from the code; "reuse before you build" first, conventions, correct names ("CrypTool", "CrypTool-Online"), "ask if in doubt"; mentions both Next.js routers (migration to app/ in progress)
+%   - Chakra UI skills chakra-ui-builder, chakra-ui-refactor (https://chakra-ui.com/docs/get-started/ai/skills, installed with npx skills add, skills-lock.json)
+%   - own CTO skills: new-cto-app (10 steps, skeleton, ctoapps.json entry, catalogue of reusable parts with usage counts), cto-texts (EN/DE texts, correct names), cto-app-check (static + browser checks, conventions, unusual input, report), session-log (opt-in, disable-model-invocation)
+%   - MCP servers, pinned in .mcp.json, opencode.json, .codex/config.toml: Chakra UI (@chakra-ui/react-mcp@2.1.1), Playwright (@playwright/mcp@0.0.83, Chrome for Testing, isolated)
+%   - one copy of each skill in .agents/skills/ (Codex, OpenCode), linked relatively into .claude/skills/ (Claude Code); CI format check skips symlinks (Prettier exits 2 on them). OpenCode may list skills twice: OPENCODE_DISABLE_CLAUDE_CODE_SKILLS=1
+%   - rationale + 14 sources in .agents/README.md on ma-setup
+% TIP: Why lean core + skills instead of one large AGENTS.md: long context files lower success rate and raise cost (Gloaguen et al.).
+% TIP: Verification of the setup: skeletons pass Prettier, ESLint, Jest; skill file references checked by script; dry run with Claude Code in plan mode (Affine cipher, 27 turns, approx. $1.84, 5 min) loaded new-cto-app, reused option cards and primeTools gcd/modInverse, found real bug (MultiplicativeAlgorithm.js hardcodes inverses for m = 26). Not yet checked: Codex, live OpenCode session, browser part of cto-app-check, symlinks on Windows.
 % TIP: Describe how the AGENTS.md was derived: analysis of CTO conventions plus lessons from the pilot runs (see 05implementation.tex). Separate the CTO-specific content from the transferable lessons (= the guidelines for other large projects).

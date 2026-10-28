@@ -18,7 +18,7 @@
 % How are the apps described to the AI?
 % TIP: Fixed initial prompt per app, identical for all agents and both configurations. Put both prompts verbatim into the appendix.
 % Describe the specs given to the agents in each run (one shot, only /init, tools, skills, etc. (not all combinations, but maybe 2-3 different approaches))
-% TIP: Final design (8 runs), 2 configurations = baseline (no AGENTS.md, no skills) vs. setup (AGENTS.md + Chakra UI skills):
+% TIP: Final design (8 runs), 2 configurations = baseline (branch ma-base = main minus AGENTS.md and CLAUDE.md, i.e. "no context file" condition of Gloaguen et al.; main has no skills or MCP configs) vs. setup (branch ma-setup, see 04development.tex). Both based on main 6ed00c72; never work on these branches themselves, they are the fixed starting points.
 %   - App 1: 3 agents (Claude Code, Codex, OpenCode with local model) x 2 configurations = 6 runs
 %   - App 2: Claude Code only x 2 configurations = 2 runs (replication)
 %   Extension if time permits: Codex and OpenCode on app 2 as well (= 12 runs); otherwise future work.
@@ -32,9 +32,11 @@
 % Introduce selection of agents (and why)? (criteria: cost, performance, ease of use, etc.)
 % Describe environment setup (i.e., terminal based, desktop app or plugin in VSC) (e.g., how to connect agents to the CTO codebase, how to evaluate their performance, etc.)
 % TIP: Identical starting state for every run:
-%   - same commit, fresh branch or fresh clone
+%   - fresh single-branch clone per run, outside ~/Projects/cto/ (git clone --single-branch --branch ma-setup ... ~/ab-runs/setup-1, then git switch -c ab/setup-1 && npm ci; same with ma-base). Never use linked worktrees: in a worktree without .claude/skills, Claude Code loads the main checkout's skills. Optional template folder per arm, copied with cp -a; never start an agent inside the template.
 %   - same AGENTS.md (record git hash)
-%   - disable user-level config and memory: ~/.claude/CLAUDE.md, Claude Code auto-memory, ~/.codex/AGENTS.md, global MCP servers
+%   - disable user-level config and memory: ~/.claude/CLAUDE.md, Claude Code auto-memory, ~/.codex/AGENTS.md, global MCP servers, ~/.agents/skills/find-skills; record remaining user-level skills, plugins, claude.ai connectors, Claude in Chrome
+%   - setup arm only: install Playwright browser once (npx -y @playwright/mcp@0.0.83 install-browser chrome-for-testing) and approve the project MCP servers
+%   - same agent, model, prompt and plan-approval policy in both arms
 %   - record model, agent version, and reasoning effort per run
 % Describe observations that will be made (e.g., (no. of) prompts, no. of iterations, time taken (elapsed time), autonomy, failures, interventions needed, etc.)
 % TIP: Rules for follow-up prompts. Classify every intervention:
@@ -50,6 +52,8 @@
 %   - save transcripts: Claude Code ~/.claude/projects/ (JSONL), Codex ~/.codex/sessions/, OpenCode export
 %   - commit after every agent turn so the git history shows how the code evolved
 %   - token usage / cost can be extracted from the transcripts later
+%   - measure: cto-app-check rubric, number of corrective follow-ups, tokens, time, lint and test results. Keep the rubric outside both clones, never let it into a baseline run.
+%   - blind rating: git diff ma-setup...ab/setup-1 > ~/ab-ratings/run-07.diff (neutral names), mapping name -> run in a separate file
 % TIP: Keep a log table during the run: one row per prompt with time, intervention category, what went wrong, short note. Much faster to analyse than re-reading transcripts.
 \subsection{Case Study: Claude Code} %Or: Case Study: App 1; Case Study: App 2; Case Study: App 3
 % In-depth description of different approaches (e.g., with/without tools, with/without skills, etc.) 
