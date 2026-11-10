@@ -29,6 +29,39 @@
 %   7. App 1, Codex, baseline        8. App 1, OpenCode, baseline
 % TIP: Check that every agent actually loads the setup: Claude Code may read CLAUDE.md instead of AGENTS.md (if so, add a CLAUDE.md containing only "@AGENTS.md"). Skill folders differ per agent (.claude/skills, .agents/skills, .opencode/skills). Verify in each transcript that the skills were used.
 % TIP: Local model for OpenCode: test tool calling in a short trial run before the real run. Document model, quantization, runtime (e.g., llama.cpp version), context size, and hardware (RTX 3060 12 GB, Ryzen 5 2600, 46 GB RAM).
+% NOTE: Local model setup for OpenCode (state 2026-11-10, values read from the machine; update if anything changes before the runs)
+%   Hardware:
+%   - CPU: AMD Ryzen 5 2600 (6 cores / 12 threads); RAM: 48 GB DDR4 (46 GiB usable), 4 modules = 2x 16 GB (Corsair CMK32GX4M2E3200C16) + 2x 8 GB (Corsair CMK16GX4M2B3000C15), dual channel (16 + 8 GB per channel), running at 3000 MT/s -> theoretical bandwidth ~48 GB/s (relevant because the offloaded experts are read from RAM)
+%   - GPU: NVIDIA GeForce RTX 3060, 12 GB VRAM, driver 620.70.06; the GPU also drives the desktop, so somewhat less than 12 GB is free
+%   - OS: CachyOS Linux (rolling), kernel 7.3.3-1-cachyos-bore
+%   Model:
+%   - Qwen3.6-35B-A3B (Alibaba Qwen team), mixture-of-experts: 35B total, ~3B active parameters per token (TODO: verify license and exact numbers on the model card)
+%   - GGUF, quantization Q4_K_M, from lmstudio-community (21.2 GB file), downloaded via LM Studio:
+%       ~/.lmstudio/models/lmstudio-community/qwen/qwen3.6-35b-a3b/Qwen3.6-35B-A3B-Q4_K_M.gguf
+%   - Why this model: as MoE, its expert weights can live in system RAM while attention, shared weights and the KV cache stay on the GPU -> usable speed on 12 GB VRAM.
+%   - Considered and rejected: Devstral Small 2 24B (Mistral, EU-based; dense, Q4_K_M = 14.3 GB, does not fit 12 GB -> future work), Qwen3.6-27B / Qwen3.8-27B (dense, too large for a useful context), Bonsai 27B (1-bit version of Qwen3.6-27B; vendor model card reports a clear drop on agentic/tool-calling benchmarks, needs a llama.cpp fork), Gemma 4 E4B (reported too weak for multi-step tool calling). Backup if Qwen fails the tool-calling trial: Gemma 4 26B A4B (also MoE).
+%   Runtime:
+%   - llama.cpp llama-server, version 0.9.0-dev, build 12211, commit 7d7f02875 (2026-11-08); built from source with CUDA 13.4 (nvcc V13.4.92) and GCC 16.2.1
+%   - Chosen over LM Studio / Ollama: per-layer expert offloading (--n-cpu-moe), explicit chat template (--jinja), pinned commit and a full command line for reproducibility
+%   - TODO: freeze llama.cpp and CUDA (no rebuild, cuda in pacman IgnorePkg) until all local runs are done
+%   Server command (latest):
+%       llama-server -m ~/.lmstudio/models/lmstudio-community/qwen/qwen3.6-35b-a3b/Qwen3.6-35B-A3B-Q4_K_M.gguf -ngl 99 --n-cpu-moe 26 -c 32768 --jinja --port 8080
+%   - -ngl 99 = all layers on the GPU; --n-cpu-moe 26 = expert weights of the first 26 layers stay in system RAM; -c 32768 = context window in tokens; --jinja = chat template from the GGUF (needed for tool calls); --port 8080 = OpenAI-compatible API at http://127.0.0.1:8080/v1
+%   - Observed: ~30 tokens/s generation (TODO: measure properly, incl. prompt processing speed and speed with a nearly full context)
+%   - The server created 4 slots (--parallel auto); the log reports 32768 tokens context per slot, i.e. each request can use the full window, while the slots share one cache. Kept the default (OpenCode works mostly sequentially); revisit only if the log shows repeated full prompt reprocessing
+%   - Sampling parameters seen in a request (/slots endpoint): temperature 1.0, top_k 20, top_p 0.95, min_p 0.05. TODO: check whether they come from OpenCode or the GGUF defaults; keep identical in both arms
+%   - Thinking: the chat template in the GGUF supports enable_thinking (on/off) and preserve_thinking, but no reasoning_effort levels (so no "medium"; only a hard token cap via --reasoning-budget). Thinking is the model default. An observed request with an empty <think></think> block (1,221 tokens) was probably an OpenCode side request (e.g. title generation), not the main session.
+%     Tested 2026-11-10: OpenCode's thinking variants (default/low/medium/high) only send "reasoning_effort" (default sends nothing); llama-server + Qwen template ignore it -> identical output for all variants. The per-request "thinking_budget_tokens" (llama.cpp web UI) and --reasoning-budget N are a hard server-side cutoff (model is interrupted, not trained to plan for it), not an effort level. OpenCode also sends max_completion_tokens 8192 (from limit.output), which includes thinking tokens. -> Use OpenCode variant "default" and document it; set any budget server-side only.
+%     Plan: --reasoning on --chat-template-kwargs '{"preserve_thinking":true}' (preserve_thinking reportedly recommended for agents on the model card, TODO: verify on the official card). TODO: in the trial, check that thinking blocks appear and whether 32k context fills too fast (then drop preserve_thinking first). Record the setting, keep identical in both arms.
+%     Literature for the discussion: thinking budget improves math/coding/STEM benchmarks (Qwen3 Technical Report, Yang et al. 2025, arXiv:2505.09388); but overthinking lowers success in agentic SWE-bench tasks (Cuadron et al. 2025, "The Danger of Overthinking", arXiv:2502.08235) and longer reasoning can lower accuracy (Gema et al. 2025, "Inverse Scaling in Test-Time Compute", TMLR, arXiv:2507.14417). Effort levels of Claude Code / Codex are not comparable to Qwen's on/off switch -> record each agent's setting, justify as vendor default for agentic use.
+%   - TODO: check whether 32k context is enough for the setup arm (skills + MCP tool definitions); monitor via curl localhost:8080/slots (field n_prompt_tokens)
+%   OpenCode connection:
+%   - OpenCode v2.2.7; provider defined globally in ~/.config/opencode/opencode.jsonc, i.e. outside the repo and therefore identical for both arms:
+%       provider "llamacpp", package "@opencode/ai/providers/openai-compatible", settings.baseURL "http://127.0.0.1:8080/v1", model "qwen3.6-35b-a3b" with limit context 65536 / output 8192
+%   - Start with: opencode -m llamacpp/qwen3.6-35b-a3b (not the lmstudio/ entry, which points to LM Studio on port 1234)
+%   - The project-level opencode.json in ma-setup only adds the MCP servers (chakra-ui, playwright); ma-base has no OpenCode config
+%   - Verified 2026-11-10: a test prompt via "opencode run" was answered by the llama-server model. TODO: tool-calling trial on a scratch clone; check that the context limit triggers compaction
+%   - TODO: put the full opencode.jsonc and the server command into the appendix
 % Introduce selection of agents (and why)? (criteria: cost, performance, ease of use, etc.)
 % Describe environment setup (i.e., terminal based, desktop app or plugin in VSC) (e.g., how to connect agents to the CTO codebase, how to evaluate their performance, etc.)
 % TIP: Identical starting state for every run:
@@ -65,6 +98,7 @@
 % same as above (not too deep/detailed, e.g., only "dry run")
 \subsection{Case Study: OpenCode}
 % same as above (not too deep/detailed, e.g., only "dry run")
+% NOTE: Local model, hardware, runtime and settings are collected in the NOTE under Experimental Setup. Describe them once (there or here), and only refer to them in the other place.
 
 % Note: detailed description of the case studies, except the logs/transcripts (usb-stick, cd, appendix). Address research questions with important moments in the case studies, e.g., when the agent got stuck, when it needed intervention, etc. 
 
